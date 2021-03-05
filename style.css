@@ -1,20 +1,20 @@
 @font-face {
-    font-family: RussoOne;
-    src: url(../../Desktop/SkillGame/fonts/RussoOne-Regular.ttf);
+	font-family: RussoOne;
+	src: url('./fonts/RussoOne-Regular.ttf');
 }
 
 .firstElements{
-	display: block;
-	position: absolute;
-	left: 37%;
-	overflow: hidden;
-    width: 380px;
+	display: flex;
+	flex-direction: column;
+	width: 380px;
+	margin: 0 auto;
+	text-align: center;
 }
 
 #rules{
-    position: absolute;
-    margin-top: 10px;
-    margin-left: 10px;
+	position: absolute;
+	margin-top: 10px;
+	margin-left: 10px;
 	opacity: 0.5;
 }
 
@@ -23,68 +23,55 @@
 }
 
 @keyframes slideRight {
-    0% {
-        transform: translateX(-60%);
-    }
-
-    100% {
-        transform: translateX(0%);
-    }
+	0% {
+		transform: translateX(-60%);
+	}
+	100% {
+		transform: translateX(0%);
+	}
 }
 
 #catGif{
-    animation-name: slideRight;
-
-    animation-duration: 1.5s;
-
-    animation-timing-function: ease;
-
-
+	animation-name: slideRight;
+	animation-duration: 1.5s;
+	animation-timing-function: ease;
+	align-self: baseline;
+	width: 100%;
 	opacity: 1;
-	height: 100px;
-	position: relative;
-	right: 280px;
 }
 
 @keyframes slideRightMore {
-    0% {
-        transform: translateX(0%);
-    }
-
-    25%{
-        transform: translateX(-18%);
-    }
-
-    100% {
-        transform: translateX(65%);
-    }
+	0% {
+		transform: translateX(0%);
+	}
+	25%{
+		transform: translateX(-18%);
+	}
+	100% {
+		transform: translateX(65%);
+	}
 }
 
 #catGif.animate{
-    animation-name: slideRightMore;
-    animation-duration: 2s;
-    animation-timing-function: ease;
-
-    opacity: 0;
-    transition: 2s;
+	animation-name: slideRightMore;
+	animation-duration: 2s;
+	animation-timing-function: ease;
+	opacity: 0;
+	transition: 2s;
 }
 
 h2.firstWords{
-    font-family: RussoOne;
+	font-family: RussoOne;
 }
 
 h2.hardness{
 	font-style: italic;
-	position: relative;
-	left: 10%;
 }
 
 h4{
 	display: none;
 	font-style: italic;
-	position: relative;
-	top: 22px;
-	left: 10%;
+	align-self: center;
 }
 
 .buttonHardnessLevel{
@@ -125,6 +112,7 @@ p.high{
 	top: 144px;
 	opacity: 0;
 }
+
 #easy, #mid, #high{
 	width: 87px;
 }
@@ -149,16 +137,10 @@ table{
 	position: relative;
 }
 
-.lifesCol{
-	position: relative;
-	left: 40%;
-}
-
 .gameStatus{
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
-	position: relative;
 }
 
 .timeInSeconds{
@@ -168,36 +150,32 @@ table{
 .seconds{
 	font-style: italic;
 	font-size: 40px;
-
 }
-
-
-.lifes{
+.lives{
+	display: none;
 	font-style: italic;
 	font-size: 26px;
 	text-shadow: black 0 0 2px;
-	display: none;
 }
 
-.lifesCol{
+
+.livesCol{
 	font-style: italic;
 	font-size: 26px;
 	text-shadow: #fff600 0 0 4px;
 }
 
 #modalBootstrapWindow{
-    pointer-events: none;
+	pointer-events: none;
 }
 
 #startAgain{
 	display: none;
-	position: relative;
-	left: 41%;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	opacity: 0.6;
 }
+
 #startAgain:hover{
 	opacity: 1;
 }
-

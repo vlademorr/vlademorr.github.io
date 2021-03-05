@@ -1,83 +1,76 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<title>Игруля</title>
-	<link rel="stylesheet" href="./style.css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">	
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <head>
+    <meta charset="UTF-8">
+    <title>Skill Game</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="./main.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-</head>
-<body>
-
-<div class="modal" tabindex="-1" role="dialog" id="modalBootstrapWindow">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Ты проиграл</h5>
-      </div>
-      <div class="modal-body">
-        <p>Время закончилось</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="again">Начать заново</button>
+  </head>
+  <body>
+    <div class="modal" tabindex="-1" role="dialog" id="modalBootstrapWindow">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Game Over</h5>
+          </div>
+          <div class="modal-body">
+            <p>Time is over</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="again">Play Again</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-<button type="button" class="btn btn-secondary" id="rules">Правила</button>
-
-<span class="firstElements">
-    <h2 class="firstWords">ПРОВЕРЬ СВОЙ СКИЛЛ</h2>
-    <img id="catGif" src='./cat.gif' />
-    <span class="hint">
+    <button type="button" class="btn btn-secondary" id="rules">Rules</button>
+    <span class="firstElements">
+      <h2 class="firstWords">CHECK YOUR SKILL</h2>
+      <img id="catGif" src="images/cat.gif" />
+      <span class="hint">
         <p class="easy">
-            Время: 40 сек
-            <br>
-            Жизней: 3 4Х4
+          Time: 40 sec
+          <br>
+          Lives: 3 4Х4
         </p>
         <p class="mid">
-            Время: 30 сек
-            <br>
-            Жизней: 2 5Х5
+          Time: 30 sec
+          <br>
+          Lives: 2 5Х5
         </p>
         <p class="high">
-            Время: 20 сек
-            <br>
-            Жизней: 1 6Х6
+          Time: 20 sec
+          <br>
+          Lives: 1 6Х6
         </p>
-    </span>
+      </span>
+        <h2 class="hardness" style="color:#7c7c7c">Choose difficulty</h2>
+        <span class="buttonHardnessLevel">
+          <button type="button" class="btn btn-success" id="easy">Easy</button>
+          <button type="button" class="btn btn-warning" id="mid">Middle</button>
+          <button type="button" class="btn btn-danger"  id="high">High</button>
+        </span>
+        <span class="buttonHardnessLevel">
+          <img class="easy" src="images/hint.png" />
+          <img class="mid" src="images/hint.png" />
+          <img class="high" src="images/hint.png" />
+        </span>
+        <span class="gameStatus">
+          <span class="timeInSeconds">
+            <span class="seconds"></span>
+            <h4>sec.</h4>
+          </span>
+          <span>
+            <div class="lives">Lives: </div>
+            <div class="livesCol"></div>
+          </span>
+        </span>
+        <table id="gameTable" class="table-bordered">
 
-    <h2 class="hardness" style="color:#7c7c7c">Выбери сложность</h2>
-    <span class="buttonHardnessLevel">
-        <button type="button" class="btn btn-success" id="easy">Легкий</button>
-        <button type="button" class="btn btn-warning" id="mid">Средний</button>
-        <button type="button" class="btn btn-danger"  id="high">Хардкор</button>
-    </span>
-    <span class="buttonHardnessLevel">
-        <img class="easy" src='./hint.png' />
-        <img class="mid" src='./hint.png' />
-        <img class="high" src='./hint.png' />
-    </span>
-
-    <span class="gameStatus">
-            <span class="timeInSeconds">
-                <span class="seconds"></span>
-                <h4>сек.</h4>
-            </span>
-            <span>
-                <div class="lifes">Жизней: </div>
-                <div class="lifesCol"></div>
-            </span>
-    </span>
-
-    <table id="gameTable" class="table-bordered">
-
-    </table>
-
-    <button type="button" class="btn btn-primary" id="startAgain">Назад</button>
-</span>
-</body>
+        </table>
+        <button type="button" class="btn btn-primary" id="startAgain">Back</button>
+      </span>
+    </body>
 </html>

@@ -1,6 +1,12 @@
 # SkillGame
-```
-run index.html
 
-the rules of the game will be on this webpage.
+# To start
+To start the game
+```
+Run index.html
+```
+# Rules
+
+```
+On the page with the game you will find all the rules
 ```

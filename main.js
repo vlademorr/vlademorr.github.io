@@ -1,271 +1,244 @@
-$(document).ready(function() {
-	var calculateNumber = 0;
-	var audio = new Audio('./wrongSound.mp3');
+$(document).ready(() => {
+	let audio = new Audio('./sounds/wrongSound.mp3');
+	let calculateNumber = 0;
+	let errors = 0;
+	let maxClicks;
+	let max;
 
-	var errors = 0;
-	var max;
-	var maxClicks;
+	const modalBootstrapWindow = $('#modalBootstrapWindow');
+	const modalTitle = $('.modal-title');
+	const modalBody = $('.modal-body p');
+	const gameTable = $('#gameTable');
+	const livesCol = $('.livesCol');
+	const btnEasy = $('#easy');
+	const btnMid = $('#mid');
+	const btnHigh = $('#high');
+	const again = $('#again');
+	const secondsSelector = $('.seconds');
 
-	var btnEasy = $('#easy');
-	var btnMid = $('#mid');
-	var btnHigh = $('#high');
-
-	const tableFunc = function(columnsXcells){
-		let tr = "";
-		let td = "";
-
-		for(let i = 0; i<columnsXcells; i++){
-			td = td + "<td></td>"
-		}
-
-		for(let i = 0; i<columnsXcells; i++) {
-			tr = tr + "<tr>" + td + "</tr>"
-		}
-		return tr
-	};
-
-
-	$('#again').click(function(){
+	again.click(() => {
 		location.reload();
 		$('#catGif').removeClass('animate');
 	});
 
-	$('#startAgain').click(function(){
+	$('#startAgain').click(() => {
 		location.reload();
-		$('#startAgain').css("display", "none");
+		$('#startAgain').css('display', 'none');
 	});
 
-	$('#rules').click(function(){
-		$('.modal-title').text('');
-		$('.modal-title').append('Правила игры');
-
-		$('.modal-body p').text('');
-		$('.modal-body p').append('Выберите сложность которая вам по плечу. Дальше нужно за определенное время кликнуть по порядку на все числа (от 1 и т.д. до конца) пока не закончилось время. И конечно же поменьше ошибаться!');
-
-		$('#again').text('');
-		$('#again').append('Главный экран');
+	$('#rules').click(() => {
+		modalTitle.text('');
+		modalTitle.append('Rules of the game');
+		modalBody.text('');
+		modalBody.append('Choose the difficulty you can handle. Then you need to click in order on all the numbers (from 1, etc. to the end) in a certain time until the time runs out. And of course, make fewer mistakes!');
+		again.text('');
+		again.append('Back');
 
 		$('#modalBootstrapWindow').modal('show');
 	});
 
-	//Зелена кнопочка ХОВЕР
-	btnEasy.mouseenter(function() {
-  		$('p.easy').css("opacity", "1");
-		$('img.easy').css("opacity", "1");
-	});
+	let intervalId;
 
-	btnEasy.mouseleave(function() {
-  		$('p.easy').css("opacity", "0");
-  		$('img.easy').css("opacity", "0");
-	});
+	const intervalIdFunc = (timerDec) => {
+		intervalId = setInterval(timerDec, 1000);
+	};
 
-	//Жовта кнопочка ХОВЕР
-	btnMid.mouseenter(function() {
-		$('p.mid').css("opacity", "1");
-		$('img.mid').css("opacity", "1");
-	});
+	let timer = () => {
+		const time = secondsSelector;
 
-	btnMid.mouseleave(function() {
-		$('p.mid').css("opacity", "0");
-		$('img.mid').css("opacity", "0");
-	});
+		const timerDecrement = () => {
+			const newTime = time.text() - 1;
 
-	//КРАСНА кнопочка ХОВЕР
-	btnHigh.mouseenter(function() {
-		$('p.high').css("opacity", "1");
-		$('img.high').css("opacity", "1");
-	});
+			time.text(newTime);
 
-	btnHigh.mouseleave(function() {
-		$('p.high').css("opacity", "0");
-		$('img.high').css("opacity", "0");
-	});
-
-	//Зелена кнопочка КЛіК
-	btnEasy.click(function(){
-			$('#catGif').addClass('animate');
-			$('.buttonHardnessLevel').css("display", "none");
-			$('h2.firstWords').css("opacity", "0");
-			$('h2.hardness').css("display", "none");
-			$('h4').css("display", "block");
-			$('.hint').css("display", "none");
-			$('.lifes').css({"display": "block", "color": "#48f661"});
-			$('.lifesCol').append('3');
-			$('#startAgain').css("display", "block");
-			max = 16;
-
-			$('#gameTable').text('');
-			$('#gameTable').append(tableFunc(4));
-			$('.seconds').append('40');
-			gameResults();
-			timer();
-			$('table').css("display", "block");
-			maxClicks = 16;
-			errors = 4;
-		});
-
-		//ЖОВТА кнопочка КЛіК
-		btnMid.click(function(){
-			$('#catGif').addClass('animate');
-			$('.buttonHardnessLevel').css("display", "none")
-			$('h2.firstWords').css("opacity", "0");
-			$('h2.hardness').css("display", "none");
-			$('.hint').css("display", "none");
-			$('.lifes').css({"display": "block", "color": "#f4ed2b"});
-			$('.lifesCol').append('2');
-			$('h4').css("display", "block");
-			$('#startAgain').css("display", "block");
-
-			max = 25;
-			$('#gameTable').text('');
-			$('#gameTable').append(tableFunc(5));
-			$('.seconds').append('30');
-			gameResults();
-			timer();
-			$('table').css("display", "block");
-			maxClicks = 25;
-			errors = 3;
-		});
-
-		//КРАСНА кнопочка КЛіК
-		btnHigh.click(function(){
-			$('#catGif').addClass('animate');
-			$('.buttonHardnessLevel').css("display", "none")
-			$('h2.firstWords').css("opacity", "0");
-			$('h2.hardness').css("display", "none");
-			$('.hint').css("display", "none");
-			$('.lifes').css({"display": "block", "color": "#ff6b6e"});
-			$('.lifesCol').append('1');
-			$('h4').css("display", "block");
-			$('#startAgain').css("display", "block");
-
-			max = 36;
-
-			$('#gameTable').text('');
-			$('#gameTable').append(tableFunc(6));
-			$('.seconds').append('20');
-			gameResults();
-			timer();
-			$('table').css("display", "block");
-			maxClicks = 36;
-			errors = 2;
-		});
-
-	var gameResults = function(){
-		$('#gameTable').click(function(event){
-	
-			if($(event.target).text() == calculateNumber + 1){
-				event.target = $(event.target).css('background-color', '#acf293');
-				if($(event.target).text() == maxClicks){
-					clearInterval(intervalId);
-
-					$('.modal-title').text('');
-					$('.modal-title').append('Ты выиграл!');
-
-					$('.modal-body p').text('');
-					$('.modal-body p').append('Так держать!');
-
-					$('#again').text('');
-					$('#again').append('Играть снова');
-
-					$('#modalBootstrapWindow').modal('show');
-				}
-				calculateNumber++;
-			}else{
-
-				audio.play();
-				$('.lifesCol').text('');
-				$('.lifesCol').append(errors - 2);
-				errors--
-
-			if(errors === 0){
+			if (newTime === 0) {
 				clearInterval(intervalId);
-				$('.modal-title').text('');
-				$('.modal-title').append('Ты проиграл!');
-
-				$('.modal-body p').text('');
-				$('.modal-body p').append('Закончились жизни!');
-
-				$('#again').text('');
-				$('#again').append('Играть снова');
-
-				$('#modalBootstrapWindow').modal('show');
+				modalTitle.text('');
+				modalTitle.append('You Lose!');
+				modalBody.text('');
+				modalBody.append('Time is up!');
+				modalBootstrapWindow.modal('show');
 			}
-			}
+		};
 
+		intervalIdFunc(timerDecrement, 1000);
+	};
+
+	let gameResults = () => {
+		gameTable.click((event) => {
+			if (+$(event.target).text() === calculateNumber + 1) {
+				event.target = $(event.target).css('background-color', '#acf293');
+
+				if (+$(event.target).text() === maxClicks) {
+					clearInterval(intervalId);
+					modalTitle.text('');
+					modalTitle.append('You Win!');
+					modalBody.text('');
+					modalBody.append('Keep it up!');
+					again.text('');
+					again.append('Play Again');
+					modalBootstrapWindow.modal('show');
+				}
+
+				calculateNumber++;
+			} else {
+				audio.play();
+				livesCol.text('');
+				livesCol.append((errors - 2).toString());
+				errors--;
+
+				if (+errors === 0) {
+					clearInterval(intervalId);
+					modalTitle.text('');
+					modalTitle.append('You lose!');
+					modalBody.text('');
+					modalBody.append('Lives out!');
+					again.text('');
+					again.append('Play Again');
+					modalBootstrapWindow.modal('show');
+				}
+			}
 		});
 
+		const generateArrayRandomNumber = (min, max) => {
+			const arrayTotalNumbers = [];
+			const	arrayRandomNumbers = [];
+			let totalNumbers = max - min + 1;
+			let	tempRandomNumber;
 
-		function generateArrayRandomNumber (min, max) {
-			var totalNumbers 		= max - min + 1,
-				arrayTotalNumbers 	= [],
-				arrayRandomNumbers 	= [],
-				tempRandomNumber;
-		
 			while (totalNumbers--) {
 				arrayTotalNumbers.push(totalNumbers + min);
 			}
-		
+
 			while (arrayTotalNumbers.length) {
 				tempRandomNumber = Math.round(Math.random() * (arrayTotalNumbers.length - 1));
 				arrayRandomNumbers.push(arrayTotalNumbers[tempRandomNumber]);
 				arrayTotalNumbers.splice(tempRandomNumber, 1);
 			}
-		
+
 			return arrayRandomNumbers;
+		};
+
+		let randomNumber = generateArrayRandomNumber(1, max);
+		let t = document.getElementById('gameTable');
+		let trs = t.getElementsByTagName('tr');
+		let tds = null;
+
+		for (let i = 0; i < trs.length; i++){
+			tds = trs[i].getElementsByTagName('td');
+
+			for (let n = 0; n < tds.length; n++){
+				tds[n].innerHTML = randomNumber.shift();
+			}
 		}
-	
-		var randomNumber = generateArrayRandomNumber(01, max);
-		
-		
-		var t = document.getElementById("gameTable");
-		var trs = t.getElementsByTagName("tr");
-		var tds = null;
-		
-		for (var i=0; i<trs.length; i++){
-		    tds = trs[i].getElementsByTagName("td");
-		    for (var n=0; n<tds.length;n++){
-		    	randomNumber1 = randomNumber.shift();
-		    	tds[n].innerHTML = randomNumber1;
-		
-		    };  
-		};
-	}
-
-		
-
-
-	var timer = function(){
-		const time = $('.seconds');
-  		intervalId = setInterval(timerDecrement, 1000);
-	
-		function timerDecrement() {
-  			const newTime = time.text() - 1;
-	
-  			time.text(newTime);
-	
-  			if(newTime === 0){
-  				clearInterval(intervalId);
-  				$('.modal-title').text('');
-				$('.modal-title').append('Ты проиграл!');
-
-				$('.modal-body p').text('');
-				$('.modal-body p').append('Закончилось время!');
-
-				$('#modalBootstrapWindow').modal('show');
-  			};
-		};
 	};
 
-	
-	
+	const tableFunc = (columnsXcells) => {
+		let tr = '';
+		let td = '';
 
+		for(let i = 0; i < columnsXcells; i++){
+			td += '<td></td>';
+		}
+
+		for(let i = 0; i < columnsXcells; i++) {
+			tr = tr + '<tr>' + td + '</tr>';
+		}
+
+		return tr
+	};
+
+	const mouseEvents = (selector, selectorName, mouseEvent) => {
+		if (mouseEvent === 'mouseEnter') {
+			selector.mouseenter(() => {
+				$(`p.${selectorName}`).css('opacity', '1');
+				$(`img.${selectorName}`).css('opacity', '1');
+			})
+		} else if (mouseEvent === 'mouseLeave') {
+			selector.mouseleave(() => {
+				$(`p.${selectorName}`).css('opacity', '0');
+				$(`img.${selectorName}`).css('opacity', '0');
+			})
+		}
+	};
+
+	mouseEvents(btnEasy, 'easy', 'mouseEnter');
+	mouseEvents(btnEasy, 'easy', 'mouseLeave');
+	mouseEvents(btnMid, 'mid', 'mouseEnter');
+	mouseEvents(btnMid, 'mid', 'mouseLeave');
+	mouseEvents(btnHigh, 'high', 'mouseEnter');
+	mouseEvents(btnHigh, 'high', 'mouseLeave');
+
+	const hardnessLevel = (
+		difficultlySelector,
+		seconds,
+		livesCols,
+		livesColor,
+		maxCells,
+		maxGameClicks,
+		gameErrors,
+		tableFuncValue,
+	) => {
+		difficultlySelector.click(() => {
+			$('#catGif').addClass('animate');
+
+			$('.buttonHardnessLevel').css('display', 'none');
+			$('h2.hardness').css('display', 'none');
+			$('.hint').css('display', 'none');
+			$('.lives').css({'display': 'block', 'color': livesColor});
+			$('h4').css('display', 'block');
+			$('#startAgain').css('display', 'block');
+			$('h2.firstWords').css('display', 'none');
+
+			livesCol.append(livesCols);
+
+			max = maxCells;
+
+			gameTable.text('');
+
+			gameTable.append(tableFunc(tableFuncValue));
+			secondsSelector.append(seconds);
+
+			$('table').css('display', 'block');
+
+			gameResults();
+			timer();
+
+			maxClicks = maxGameClicks;
+			errors = gameErrors;
+		});
+	};
+
+	hardnessLevel(
+		btnEasy,
+		'40',
+		'3',
+		'#48f661',
+		16,
+		16,
+		4,
+		4
+	);
+
+	hardnessLevel(
+		btnMid,
+		'30',
+		'2',
+		'#f4ed2b',
+		25,
+		25,
+		3,
+		5
+	);
+
+	hardnessLevel(
+		btnHigh,
+		'20',
+		'1',
+		'#ff6b6e',
+		36,
+		36,
+		2,
+		6
+	);
 });
-
-
-
-
-
-
-
-
