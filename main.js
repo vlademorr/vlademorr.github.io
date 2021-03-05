@@ -233,7 +233,7 @@ $(document).ready(() => {
 
 	hardnessLevel(
 		btnHigh,
-		'20',
+		'30',
 		'1',
 		'#ff6b6e',
 		36,
